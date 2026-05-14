@@ -14,7 +14,8 @@ const userSchema = new mongoose.Schema({
 
     contrasena:{
         type: String,
-        required: true
+        default: null,
+        sparse: true 
     },
         googleId: {
         type: String,
