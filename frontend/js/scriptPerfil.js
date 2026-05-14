@@ -1,91 +1,89 @@
-// Requiere config.js y modal.js cargados antes en el HTML
-
+// Nota: Agregamos "async" aquí para poder usar await en el fetch inicial
 document.addEventListener("DOMContentLoaded", async () => {
     const usuarioStr = localStorage.getItem('usuarioSaccarum');
-
+    
     if (!usuarioStr) {
         window.location.href = "login-register.html";
         return;
     }
 
-    const usuario = getUsuario();
-    if (!usuario) {
-        window.location.href = "login-register.html";
-        return;
-    }
+    const usuario = JSON.parse(usuarioStr);
 
-    if (usuario && usuario.hasPassword === false) {
-        const passActual = document.getElementById("pass-actual");
-        const passNueva = document.getElementById("pass-nueva");
-        const btnCambiar = document.getElementById("btn-cambiar-pass");
-        const mensajeDiv = document.getElementById("mensaje-google-warning");
-
-        if (passActual) passActual.disabled = true;
-        if (passNueva) passNueva.disabled = true;
-        if (btnCambiar) btnCambiar.disabled = true;
-        if (mensajeDiv) {
-            mensajeDiv.innerHTML = "Función no válida para usuarios que iniciaron sesión con Google.";
-        }
-    }
-
+    // Verificamos que los elementos existan antes de asignarles valor para evitar errores en la consola
     const elementoNombre = document.getElementById("perfil-nombre");
     if (elementoNombre) elementoNombre.textContent = usuario.nombre;
-
+    
     const elementoEmail = document.getElementById("perfil-email");
     if (elementoEmail) elementoEmail.textContent = usuario.email;
 
     const inputFoto = document.getElementById("input-foto");
     const imgPerfil = document.getElementById("img-perfil");
     const btnGuardarFoto = document.getElementById("btn-guardar-foto");
-
+    
     let archivoSeleccionado = null;
 
-    // Cargar foto de perfil desde la BD
+    // === NUEVO: CARGAR LA FOTO DESDE LA BASE DE DATOS ===
     try {
-        const respuesta = await fetch(`${API_NODE}/api/avatar/obtener-avatar/${usuario.id}`);
-        if (!respuesta.ok) throw new Error(`Error del servidor: ${respuesta.status}`);
+        // Le pedimos al servidor el avatar de este usuario en específico
+        const respuesta = await fetch(`http://localhost:2000/api/avatar/obtener-avatar/${usuario.id}`);
         const datos = await respuesta.json();
+
+        // Si la petición fue exitosa y el usuario tiene un avatar
         if (datos.exito && datos.avatar && imgPerfil) {
-            imgPerfil.src = datos.avatar.imagen_enlace;
+            // Reemplazamos la imagen por defecto por la que está en Cloudinary
+            imgPerfil.src = datos.avatar.imagen_enlace; 
         }
     } catch (error) {
-        console.error("Error al cargar la foto de perfil:", error);
+        console.error("Error al intentar cargar la foto de perfil:", error);
     }
+    // ====================================================
 
+    // Lógica para previsualizar la foto subida
     if (inputFoto) {
         inputFoto.addEventListener("change", (e) => {
             const file = e.target.files[0];
             if (file) {
-                archivoSeleccionado = file;
-                btnGuardarFoto.style.display = "inline-block";
+                archivoSeleccionado = file; 
+                btnGuardarFoto.style.display = "inline-block"; 
+
                 const reader = new FileReader();
-                reader.onload = (evento) => { imgPerfil.src = evento.target.result; };
+                reader.onload = (evento) => {
+                    imgPerfil.src = evento.target.result; 
+                };
                 reader.readAsDataURL(file);
             }
         });
     }
 
+    // Lógica para guardar la foto en la Base de Datos
     if (btnGuardarFoto) {
         btnGuardarFoto.addEventListener("click", async () => {
             if (!archivoSeleccionado) return;
+
             const formData = new FormData();
             formData.append('imagen', archivoSeleccionado);
-            formData.append('usuario', usuario.id);
+            formData.append('usuario', usuario.id); 
 
             try {
                 btnGuardarFoto.textContent = "Guardando...";
                 btnGuardarFoto.disabled = true;
-                const response = await fetch(`${API_NODE}/api/avatar/guardar-avatar`, {
+
+                const response = await fetch('http://localhost:2000/api/avatar/guardar-avatar', {
                     method: 'POST',
                     body: formData
                 });
-                if (!response.ok) throw new Error(`Error del servidor: ${response.status}`);
-                await response.json();
-                await mostrarAlerta("¡Listo!", "Foto de perfil actualizada exitosamente.", "success");
-                btnGuardarFoto.style.display = "none";
+
+                const data = await response.json();
+
+                if (response.ok) {
+                    alert("¡Foto de perfil actualizada exitosamente!");
+                    btnGuardarFoto.style.display = "none"; 
+                } else {
+                    alert("Error al guardar: " + data.mensaje);
+                }
             } catch (error) {
-                console.error("Error al guardar foto:", error);
-                mostrarAlerta("Error de conexión", "Hubo un problema de conexión con el servidor.", "error");
+                console.error("Error en la petición:", error);
+                alert("Hubo un problema de conexión con el servidor.");
             } finally {
                 btnGuardarFoto.textContent = "Guardar Foto";
                 btnGuardarFoto.disabled = false;
@@ -93,7 +91,7 @@ document.addEventListener("DOMContentLoaded", async () => {
         });
     }
 
-    // Cerrar sesión
+    // Cerrar Sesión (CORREGIDO)
     const btnCerrarSesion = document.getElementById("btn-cerrar-sesion");
     if (btnCerrarSesion) {
         btnCerrarSesion.addEventListener("click", () => {
@@ -102,77 +100,75 @@ document.addEventListener("DOMContentLoaded", async () => {
         });
     }
 
-    // Eliminar cuenta
+    // Botón Eliminar (CORREGIDO)
     const btnEliminarCuenta = document.getElementById("btn-eliminar-cuenta");
     if (btnEliminarCuenta) {
-        btnEliminarCuenta.addEventListener("click", async () => {
-            const confirmado = await mostrarConfirm(
-                "Eliminar Cuenta",
-                "¿Estás seguro de que deseas eliminar tu cuenta permanentemente? Esta acción no se puede deshacer.",
-                "Eliminar cuenta",
-                "error"
-            );
-            if (!confirmado) return;
-            try {
-                const response = await fetch(`${API_NODE}/eliminar/${usuario.id}`, { method: 'DELETE' });
-                if (!response.ok) throw new Error(`Error del servidor: ${response.status}`);
-                await mostrarAlerta("Cuenta eliminada", "Tu cuenta ha sido eliminada correctamente.", "info");
-                localStorage.removeItem('usuarioSaccarum');
-                window.location.href = "login-register.html";
-            } catch (error) {
-                console.error("Error al eliminar cuenta:", error);
-                mostrarAlerta("Error", "No se pudo eliminar la cuenta. Intenta de nuevo.", "error");
+        btnEliminarCuenta.addEventListener("click", () => {
+            if(confirm("¿Estás seguro de que deseas eliminar tu cuenta permanentemente?")) {
+                alert(`Aquí enviarías un fetch a DELETE http://localhost:2000/eliminar/${usuario.id}`);
             }
         });
     }
 
-    // Cambiar contraseña
+    // === NUEVA LÓGICA: CAMBIAR CONTRASEÑA (MOVIDA ADENTRO DEL SCOPE) ===
     const btnCambiarPass = document.getElementById("btn-cambiar-pass");
+    
     if (btnCambiarPass) {
         btnCambiarPass.addEventListener("click", async () => {
             const passActual = document.getElementById("pass-actual").value;
             const passNueva = document.getElementById("pass-nueva").value;
 
+            // Validamos que los campos no estén vacíos
             if (!passActual || !passNueva) {
-                await mostrarAlerta("Campos incompletos", "Por favor, llena ambos campos de contraseña.", "warning");
-                return;
-            }
-            if (passNueva.length < 6) {
-                await mostrarAlerta("Contraseña muy corta", "La nueva contraseña debe tener al menos 6 caracteres.", "warning");
+                alert("Por favor, llena ambos campos de contraseña.");
                 return;
             }
 
             try {
                 btnCambiarPass.textContent = "Actualizando...";
                 btnCambiarPass.disabled = true;
-                const response = await fetch(`${API_NODE}/cambiar-contrasena`, {
+
+                const response = await fetch('http://localhost:2000/cambiar-contrasena', {
                     method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
                     body: JSON.stringify({
-                        usuarioId: usuario.id,
+                        usuarioId: usuario.id, // Enviamos el ID para saber a quién actualizar
                         contrasenaActual: passActual,
                         nuevaContrasena: passNueva
                     })
                 });
-                if (!response.ok) throw new Error(`Error del servidor: ${response.status}`);
+
                 const data = await response.json();
-                await mostrarAlerta("¡Listo!", data.mensaje, "success");
-                document.getElementById("pass-actual").value = "";
-                document.getElementById("pass-nueva").value = "";
+
+                if (response.ok) {
+                    alert("¡" + data.mensaje + "!");
+                    // Limpiamos los inputs si fue exitoso
+                    document.getElementById("pass-actual").value = "";
+                    document.getElementById("pass-nueva").value = "";
+                } else {
+                    alert("Error: " + data.mensaje);
+                }
+
             } catch (error) {
                 console.error("Error al cambiar contraseña:", error);
-                mostrarAlerta("Error de conexión", "Hubo un problema al conectar con el servidor.", "error");
+                alert("Hubo un problema al conectar con el servidor.");
             } finally {
                 btnCambiarPass.textContent = "Confirmar Cambio";
                 btnCambiarPass.disabled = false;
             }
         });
     }
-});
 
+}); // <-- EL DOMContentLoaded CIERRA CORRECTAMENTE AQUÍ
+
+// Función maestra para ocultar/mostrar cualquier contraseña (Se queda fuera)
 function configurarOjo(idInput, idIcono) {
     const input = document.getElementById(idInput);
     const icono = document.getElementById(idIcono);
+
+    // CORREGIDO: Verificamos que los inputs existan en la pantalla antes de agregarles el evento
     if (input && icono) {
         icono.addEventListener('click', function () {
             if (input.type === 'password') {
@@ -186,5 +182,6 @@ function configurarOjo(idInput, idIcono) {
     }
 }
 
+// ¡Ahora solo llamamos a la función para cada formulario!
 configurarOjo('pass-actual', 'icono-ojo');
 configurarOjo('pass-nueva', 'icono-ojo-comprobar');
