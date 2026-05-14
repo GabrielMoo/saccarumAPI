@@ -104,7 +104,7 @@ app.get('/auth/google',
 
 // ── Callback que Google llama después de que el usuario acepta ──
 app.get('/auth/google/callback',
-    passport.authenticate('google', { failureRedirect: `${FRONTEND_URL}/frontend/login-register.html?error=google` }),
+    passport.authenticate('google', { failureRedirect: `${FRONTEND_URL}/login-register.html?error=google` }),
     (req, res) => {
         // Determinar si el usuario tiene contraseña
         const hasPassword = !!req.user.contrasena; // true si existe campo contraseña
@@ -115,7 +115,7 @@ app.get('/auth/google/callback',
             email: req.user.email,
             hasPassword: hasPassword   // ← agregar bandera
         }));
-        res.redirect(`${FRONTEND_URL}/frontend/login-register.html?googleUser=${userData}`);
+        res.redirect(`${FRONTEND_URL}/login-register.html?googleUser=${userData}`);
     }
 );
 
