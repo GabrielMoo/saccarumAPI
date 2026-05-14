@@ -7,7 +7,7 @@ const Diagnostico = require('../models/diagnostico');
 // CREAR UN CULTIVO
 const crearCultivo = async (req, res) => {
     try {
-        const { usuario, nombrez } = req.body; 
+        const { usuario, nombre } = req.body; 
         const nuevoCultivo = new Cultivos({
             usuario,
             nombre,
