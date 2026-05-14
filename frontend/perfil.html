@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SACCARUM - Mi Perfil</title>
+    <link rel="stylesheet" href="css/estilos.css">
+    <link rel="stylesheet" href="css/perfil.css">
+    <script src="js/config.js"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Nunito:ital,wght@0,200..1000;1,200..1000&display=swap"
+    rel="stylesheet">
+  <link
+    href="https://fonts.googleapis.com/css2?family=Nunito:ital,wght@0,200..1000;1,200..1000&family=PT+Sans:ital,wght@0,400;0,700;1,400;1,700&display=swap"
+    rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.13.1/font/bootstrap-icons.min.css">
+    <script src="js/navbar.js"></script>
+</head>
+
+<body>
+
+    <main-navbar></main-navbar>
+
+    <main class="contenedor-perfil-centrado">
+        <div class="tarjeta-perfil">
+            <div class="tarjeta-izquierda">
+                <h1 class="titulo-perfil">Mi Perfil</h1>
+
+                <div class="seccion-foto">
+                    <div class="marco-foto">
+                        <img id="img-perfil" src="./media/default-avatar.png" alt="Foto de perfil">
+                    </div>
+                    <div class="botones-foto"
+                        style="display: flex; gap: 10px; justify-content: center; margin-top: 10px;">
+                        <button class="btn-subir" onclick="document.getElementById('input-foto').click()"><i class="bi bi-arrow-repeat"></i> Cambiar
+                            Foto</button>
+                        <button class="btn-subir" id="btn-guardar-foto" style="display: none"><i class="bi bi-floppy"></i> Guardar Foto</button>
+                    </div>
+                    <input type="file" id="input-foto" accept="image/*" style="display: none;">
+                </div>
+
+                <div class="info-usuario">
+                    <div class="dato-grupo">
+                        <span class="etiqueta">Nombre:</span>
+                        <span class="valor" id="perfil-nombre">Cargando...</span>
+                    </div>
+                    <div class="dato-grupo">
+                        <span class="etiqueta">Correo Electrónico:</span>
+                        <span class="valor" id="perfil-email">Cargando...</span>
+                    </div>
+                </div>
+
+            </div>
+            <div class="tarjeta-derecha">
+
+            <h1 class="titulo-perfil">Cambiar contraseña</h1>
+            
+            <div class="seccion-pass" style="display: flex; flex-direction: column; align-items: center; gap: 15px; width: 100%; max-width: 300px; margin: 0 auto;">
+                <div class="contenedor-contrasena">
+                    <input type="password" id="pass-actual" placeholder="Contraseña actual">
+                    <span id="icono-ojo" style="cursor: pointer;"><i class="bi bi-eye"></i></span>
+                </div>
+                <div class="contenedor-contrasena">
+                    <input type="password" id="pass-nueva" placeholder="Nueva contraseña">
+                    <span id="icono-ojo-comprobar" style="cursor: pointer;"><i class="bi bi-eye"></i></span>
+                </div>
+                <button class="btn-subir" id="btn-cambiar-pass" style="width: 100%;"><i class="bi bi-check-circle"></i> Confirmar Cambio</button>
+                <div id="mensaje-google-warning" style="color: #d32f2f; font-size: 13px; margin-top: 10px; text-align: center;"></div>
+
+            <hr style="margin: 30px 0; border: 1px solid #ddd;">
+                <button class="btn-eliminar" id="btn-eliminar-cuenta"><i class="bi bi-trash3"></i> Eliminar Cuenta</button>
+            </div>
+        </div>
+    </main>
+
+    <script src="js/modal.js"></script>
+    <script src="js/scriptPerfil.js"></script>
+</body>
+
+</html>

@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+  <meta charset="UTF-8">
+  <title>SACCARUM</title>
+  <link rel="stylesheet" href="css/estilos.css">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Nunito:ital,wght@0,200..1000;1,200..1000&display=swap"
+    rel="stylesheet">
+    <script src="js/config.js"></script>
+  <link
+    href="https://fonts.googleapis.com/css2?family=Nunito:ital,wght@0,200..1000;1,200..1000&family=PT+Sans:ital,wght@0,400;0,700;1,400;1,700&display=swap"
+    rel="stylesheet">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.13.1/font/bootstrap-icons.min.css">
+  <script src="js/navbar.js"></script>
+</head>
+
+<body>
+
+  <main-navbar></main-navbar>
+
+  <div class="container">
+    <div class="text-section">
+      <h1>Manten sanos tus cultivos de caña de azucar. Toma una foto, cargala y espera unos segundos</h1>
+      <p class="texto-normal">Saccarum es una herramienta que te ayuda a detectar enfermedades en tus cultivos de caña.
+        ¡Pruébala ahora mismo!</p>
+    </div>
+
+    <div class="drop-section">
+      <div class="vinculacion-previa" style="margin-bottom: 15px;">
+    <label for="selectCultivo" style="display: block; font-weight: bold; color: #2e7d32; margin-bottom: 5px;">
+        <i class="bi bi-link-45deg"></i> Vincular a un cultivo:
+    </label>
+        <select id="selectCultivo" style="width: 100%; padding: 8px 12px; border: 1.5px solid #c8e6c9; border-radius: 8px; font-size: 0.97rem; font-family: 'Nunito', sans-serif; color: #333; background: #fff; cursor: pointer; outline: none;">
+            <option value="">-- Carga tus cultivos --</option>
+        </select>
+</div>
+      <div class="drop-container">
+        
+        <div class="upload-box" id="dropZone">
+          <input type="file" id="fileInput" hidden accept="image/*">
+
+          <div id="preview"></div>
+
+          <div id="loader" style="display: none; text-align: center; margin-top: 15px;">
+            <div class="spinner"></div>
+            <p style="color: #2e7d32; font-weight: bold; margin-top: 10px;">Analizando imagen, por favor espera...</p>
+          </div>
+          <p>Arrastra tu imagen aquí <br> o haz clic para subir</p>
+          <button class="btn-subir" onclick="document.getElementById('fileInput').click()"><i class="bi bi-cloud-arrow-up-fill"></i> Seleccionar Imagen</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <section id="seccion-resultados">
+    <div class="contenido-resultados">
+      <div id="encabezado-diagnostico"></div>
+      <div id="tarjetas-recomendaciones" class="grid-recomendaciones"></div>
+
+      <div id="contenedor-chat" class="chat-widget">
+        <div class="chat-header">
+          <h3>Asistente Agrónomo Virtual</h3>
+          <p>Pregúnta tus dudas acerca del resultado del diagnóstico</p>
+        </div>
+        <div id="chat-mensajes" class="chat-messages">
+        </div>
+        <div class="chat-input-area">
+          <input type="text" id="chat-input" placeholder="Escribe tu pregunta aquí..." onkeypress="manejarEnter(event)">
+          <button id="btn-enviar-chat" onclick="enviarMensajeChat()">Enviar</button>
+        </div>
+      </div>
+    </div>
+  </section>
+  </div>
+  </section>
+  
+
+  <script src="js/modal.js"></script>
+  <script src="js/script.js"></script>
+</body>
+
+</html>

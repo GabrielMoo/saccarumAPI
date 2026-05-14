@@ -1,0 +1,538 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: "Nunito", sans-serif;
+}
+
+body {
+    margin: 0;
+    background-color: #f6f8ed;
+    color: #222;
+    height: 100%;
+    background-color: #f6f8ed;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 80 40' width='80' height='40'%3E%3Cpath fill='%23558b2f' fill-opacity='0.19' d='M0 40a19.96 19.96 0 0 1 5.9-14.11 20.17 20.17 0 0 1 19.44-5.2A20 20 0 0 1 20.2 40H0zM65.32.75A20.02 20.02 0 0 1 40.8 25.26 20.02 20.02 0 0 1 65.32.76zM.07 0h20.1l-.08.07A20.02 20.02 0 0 1 .75 5.25 20.08 20.08 0 0 1 .07 0zm1.94 40h2.53l4.26-4.24v-9.78A17.96 17.96 0 0 0 2 40zm5.38 0h9.8a17.98 17.98 0 0 0 6.67-16.42L7.4 40zm3.43-15.42v9.17l11.62-11.59c-3.97-.5-8.08.3-11.62 2.42zm32.86-.78A18 18 0 0 0 63.85 3.63L43.68 23.8zm7.2-19.17v9.15L62.43 2.22c-3.96-.5-8.05.3-11.57 2.4zm-3.49 2.72c-4.1 4.1-5.81 9.69-5.13 15.03l6.61-6.6V6.02c-.51.41-1 .85-1.48 1.33zM17.18 0H7.42L3.64 3.78A18 18 0 0 0 17.18 0zM2.08 0c-.01.8.04 1.58.14 2.37L4.59 0H2.07z'%3E%3C/path%3E%3C/svg%3E");
+}
+
+
+/* NAVBAR */
+
+nav {
+    background-color: white;
+    padding: 1rem 2rem;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+}
+
+.nav-container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    max-width: 1800px;
+    margin: 0 auto;
+}
+
+.logo {
+    width: 64px;
+    height: auto;
+    font-weight: bold;
+    font-size: 20px;
+    color: #2e7d32;
+}
+
+.nav-links {
+    display: flex;
+    gap: 2rem;
+    list-style: none;
+    align-items: center;
+    transition: all 0.3s ease;
+    font-size: 16px;
+}
+
+.nav-links a{
+    color: #7cb342;
+    text-decoration: none;
+    font-weight: 500;
+    transition: all 0.2s;
+    font-family: "PT Sans", sans-serif;
+    font-size: 16px;
+}
+
+/* Contenedor principal del avatar y texto */
+.user-profile-container {
+    display: flex;
+    align-items: center; /* Alinea verticalmente al centro */
+    gap: 5px;           /* Espacio entre imagen y texto */
+    padding: 0 1px;
+}
+
+/* Estilo de la imagen de perfil */
+#img-perfil2 {
+    width: 35px;         /* Tamaño fijo para que no se vea gigante */
+    height: 35px;
+    border-radius: 50%;  /* Hacerla circular */
+    object-fit: cover;   /* Evita que se deforme la foto */
+}
+
+/* Contenedor de los textos (Hola + Nombre) */
+.user-info {
+    display: flex;
+    flex-direction: column; /* Pone el nombre debajo del "Hola" */
+    line-height: 1.2;       /* Reduce el espacio entre líneas */
+    font-size: 0.9rem;
+}
+
+.user-name {
+    font-weight: bold;
+}
+
+.nav-links a:hover {
+    opacity: 0.8;
+    transform: translateY(-2px);
+}
+
+/* Ejemplo de estilo para el link activo */
+.nav-links a.active {
+  color: #2ecc71; /* Un color verde, por ejemplo */
+  font-weight: bold;
+  border-bottom: 2px solid #2ecc71;
+}
+
+/* Si quieres que los botones también se vean activos si estás en login */
+.nav-links a.active button {
+  background-color: #27ae60;
+  color: white;
+}
+
+.btn-back {
+    background: #7cb342;
+    color: white;
+    padding: 10px 15px;
+    border: none;
+    border-radius: 20px;
+    cursor: pointer;
+    font-size: 16px;
+    font-family: "PT Sans", sans-serif;
+}
+
+.btn-back:hover {
+    background: white;
+    color: #7cb342;
+    padding: 10px 15px;
+    border: none;
+    border-radius: 20px;
+    cursor: pointer;
+    font-size: 16px;
+    font-family: "PT Sans", sans-serif;
+}
+
+.btn-sesion {
+    background: white;
+    color: #7cb342;
+    padding: 10px 15px;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    font-size: 16px;
+    font-family: "PT Sans", sans-serif;
+}
+
+.btn-sesion:hover {
+    background: #f1f8e9;
+}
+
+.btn-registro {
+    background: #7cb342;
+    color: white;
+    padding: 10px 15px;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    font-size: 16px;
+    font-family: "PT Sans", sans-serif;
+}
+
+/* MAIN */
+.container {
+    height: 86vh;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 60px;
+}
+
+.text-section {
+    width: 50%;
+}
+
+.text-section h1 {
+    font-size: 48px;
+    margin-bottom: 20px;
+}
+
+.text-section p {
+    font-family: "PT Sans", sans-serif;
+    font-size: 24px;
+    color: darkgreen;
+}
+
+/* DROPZONE */
+
+.drop-section{
+    width: 50%;
+    height: 100%;
+    display: grid;
+    place-items: center;
+}
+
+.drop-container{
+    width: 80%;
+    height: 100%;
+    border-radius: 12px;
+    display: grid;
+    place-items: center;
+    background: white;
+}
+
+.upload-box {
+    width: 94%;
+    height: 92%;
+    border: 2px dashed #9ccc65;
+    border-radius: 12px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    background: white;
+    transition: 0.3s;
+}
+
+.upload-box.dragover {
+    background: #f1f8e9;
+    border-color: #558b2f;
+}
+
+.upload-box:hover {
+    background: #f1f8e9;
+    border-color: #558b2f;
+}
+
+.upload-box p {
+    text-align: center;
+    margin-bottom: 20px;
+    font-weight: bold;
+    font-size: 28px;
+}
+
+.upload-box button {
+    background: #7cb342;
+    color: white;
+    font-size: 16px;
+    padding: 10px 15px;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    font-family: "PT Sans", sans-serif;
+    font-size: 20px;
+}
+
+input[type="file"] {
+    display: none;
+}
+
+.preview {
+    margin-top: 15px;
+    display: flex;
+    gap: 10px;
+    flex-wrap: wrap;
+}
+
+.preview img {
+    width: 120px;
+    height: 120px;
+    object-fit: cover;
+    border-radius: 6px;
+}
+
+/* BODY */
+
+/* ... (Tus estilos anteriores se mantienen igual) ... */
+
+/* ESTILOS PARA LA NUEVA SECCIÓN DE RESULTADOS */
+#seccion-resultados {
+    display: none; /* Oculto por defecto */
+    opacity: 0;
+    transition: opacity 0.8s ease-in-out;
+    padding: 40px 20px;
+    background-color: #f6f8ed; /* Un verde muy pálido de fondo */
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 80 40' width='80' height='40'%3E%3Cpath fill='%23558b2f' fill-opacity='0.19' d='M0 40a19.96 19.96 0 0 1 5.9-14.11 20.17 20.17 0 0 1 19.44-5.2A20 20 0 0 1 20.2 40H0zM65.32.75A20.02 20.02 0 0 1 40.8 25.26 20.02 20.02 0 0 1 65.32.76zM.07 0h20.1l-.08.07A20.02 20.02 0 0 1 .75 5.25 20.08 20.08 0 0 1 .07 0zm1.94 40h2.53l4.26-4.24v-9.78A17.96 17.96 0 0 0 2 40zm5.38 0h9.8a17.98 17.98 0 0 0 6.67-16.42L7.4 40zm3.43-15.42v9.17l11.62-11.59c-3.97-.5-8.08.3-11.62 2.42zm32.86-.78A18 18 0 0 0 63.85 3.63L43.68 23.8zm7.2-19.17v9.15L62.43 2.22c-3.96-.5-8.05.3-11.57 2.4zm-3.49 2.72c-4.1 4.1-5.81 9.69-5.13 15.03l6.61-6.6V6.02c-.51.41-1 .85-1.48 1.33zM17.18 0H7.42L3.64 3.78A18 18 0 0 0 17.18 0zM2.08 0c-.01.8.04 1.58.14 2.37L4.59 0H2.07z'%3E%3C/path%3E%3C/svg%3E");
+    min-height: 100vh;
+}
+
+#seccion-resultados.mostrar {
+    display: block;
+    opacity: 1;
+}
+
+.contenido-resultados {
+    max-width: 1100px;
+    margin: 0 auto;
+}
+
+.grid-recomendaciones {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 25px;
+    margin-top: 40px;
+}
+
+/* Tarjetas Estéticas */
+.tarjeta-recom {
+    background: #fdfdfd;
+    padding: 25px;
+    border-radius: 15px;
+    box-shadow: 0 10px 25px rgba(0,0,0,0.05);
+    border: 2px solid #558b2f;
+    transition: transform 0.3s ease;
+}
+
+.tarjeta-recom:hover {
+    transform: translateY(-5px);
+}
+
+.tarjeta-recom h3 {
+    color: darkgreen;
+    margin-bottom: 15px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.tarjeta-recom ul {
+    padding-left: 20px;
+    color: #444;
+    line-height: 1.6;
+}
+
+.tarjeta-recom li {
+    margin-bottom: 8px;
+}
+
+/* --- ESTILOS DEL ANIMADOR DE CARGA (SPINNER) --- */
+.spinner {
+    border: 4px solid rgba(0, 0, 0, 0.1); /* Borde gris clarito */
+    width: 45px;
+    height: 45px;
+    border-radius: 50%;
+    border-left-color: #7cb342; /* El color verde que gira */
+    animation: spin 1s linear infinite;
+    margin: 0 auto; /* Para centrarlo */
+}
+
+/* La animación que lo hace girar 360 grados */
+@keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
+
+/* --- ESTILOS DEL CHAT --- */
+.chat-widget {
+    margin-top: 50px;
+    background: white;
+    border-radius: 15px;
+    box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+    overflow: hidden;
+    border: 2px solid #558b2f;
+}
+
+.chat-header {
+    background: #558b2f;
+    color: white;
+    padding: 15px 20px;
+    text-align: center;
+}
+
+.chat-header h3 { margin: 0; font-size: 1.2rem; }
+.chat-header p { margin: 5px 0 0; font-size: 0.9rem; opacity: 0.9; }
+
+.chat-messages {
+    height: 300px;
+    overflow-y: auto;
+    padding: 20px;
+    background: white;
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+.mensaje {
+    max-width: 80%;
+    padding: 12px 16px;
+    border-radius: 15px;
+    font-size: 0.95rem;
+    line-height: 1.4;
+}
+
+.mensaje.bot {
+    background: #f1f8e9;
+    color: #558b2f;
+    align-self: flex-start;
+    border-bottom-left-radius: 2px;
+}
+
+.mensaje.usuario {
+    background: #7cb342;
+    color: #f1f8e9;
+    align-self: flex-end;
+    border-bottom-right-radius: 2px;
+}
+
+.chat-input-area {
+    display: flex;
+    padding: 15px;
+    background: #eee;
+    border-top: 1px solid #eee;
+}
+
+#chat-input {
+    flex: 1;
+    padding: 12px;
+    border: 1px solid #ddd;
+    border-radius: 25px;
+    outline: none;
+    font-size: 1rem;
+}
+
+#chat-input:focus { border-color: #7cb342; }
+
+#btn-enviar-chat {
+    background: #558b2f;
+    color: white;
+    border: none;
+    padding: 0 20px;
+    margin-left: 10px;
+    border-radius: 25px;
+    cursor: pointer;
+    font-weight: bold;
+    transition: 0.3s;
+}
+
+#btn-enviar-chat:hover { 
+    background: #f1f8e9;
+    border: 1px solid #558b2f;
+    color: #558b2f;
+}
+
+
+/* ============================================================
+   SISTEMA DE MODALES – Saccarum
+   ============================================================ */
+:root {
+    --sac-modal-info:    #2e7d32;
+    --sac-modal-success: #388e3c;
+    --sac-modal-error:   #c62828;
+    --sac-modal-warning: #f57c00;
+}
+
+.sac-modal-hidden { display: none !important; }
+
+.sac-modal-overlay {
+    position: fixed;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.55);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 9999;
+    backdrop-filter: blur(3px);
+    animation: sacFadeIn 0.18s ease;
+}
+
+@keyframes sacFadeIn {
+    from { opacity: 0; }
+    to   { opacity: 1; }
+}
+
+.sac-modal-box {
+    background: #fff;
+    border-radius: 16px;
+    padding: 36px 32px 28px;
+    width: min(90vw, 420px);
+    box-shadow: 0 20px 60px rgba(0,0,0,0.25);
+    text-align: center;
+    animation: sacSlideUp 0.22s cubic-bezier(.34,1.56,.64,1);
+}
+
+@keyframes sacSlideUp {
+    from { transform: translateY(24px) scale(0.97); opacity: 0; }
+    to   { transform: translateY(0)    scale(1);    opacity: 1; }
+}
+
+.sac-modal-icon-wrap {
+    font-size: 2.8rem;
+    margin-bottom: 12px;
+    line-height: 1;
+}
+
+.sac-modal-box h3 {
+    margin: 0 0 10px;
+    font-size: 1.2rem;
+    font-weight: 700;
+    color: #1b2a1b;
+    font-family: 'Nunito', sans-serif;
+}
+
+.sac-modal-box p {
+    margin: 0 0 20px;
+    color: #555;
+    font-size: 0.97rem;
+    line-height: 1.5;
+    font-family: 'Nunito', sans-serif;
+}
+
+.sac-modal-input {
+    width: 100%;
+    box-sizing: border-box;
+    padding: 10px 14px;
+    border: 1.5px solid #c8e6c9;
+    border-radius: 8px;
+    font-size: 1rem;
+    font-family: 'Nunito', sans-serif;
+    margin-bottom: 20px;
+    outline: none;
+    transition: border-color 0.2s;
+}
+.sac-modal-input:focus { border-color: #2e7d32; }
+
+.sac-modal-actions {
+    display: flex;
+    gap: 12px;
+    justify-content: center;
+}
+
+.sac-btn {
+    padding: 10px 28px;
+    border-radius: 8px;
+    border: none;
+    font-size: 0.95rem;
+    font-weight: 700;
+    cursor: pointer;
+    font-family: 'Nunito', sans-serif;
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    transition: transform 0.1s, filter 0.15s;
+}
+.sac-btn:hover  { filter: brightness(0.9); }
+.sac-btn:active { transform: scale(0.97); }
+
+.sac-btn-cancel {
+    background: #f0f4f0;
+    color: #444;
+}
+
+.sac-btn-confirm {
+    background: #2e7d32;
+    color: #fff;
+}
+.sac-btn-confirm.sac-btn-danger  { background: #c62828; }
+.sac-btn-confirm.sac-btn-success { background: #388e3c; }

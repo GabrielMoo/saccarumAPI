@@ -1,0 +1,6 @@
+node_modules/
+.env
+ModeloConv1.pht
+Dockerfile
+ModeloConv1.pth
+backend/ModeloConv1.pth

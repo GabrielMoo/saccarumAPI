@@ -1,0 +1,284 @@
+/* css/historial.css */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+/* Se hereda la fuente general de admin.css */
+body {
+    background-color: transparent;  /* Mismo fondo que el panel */
+    color: #030303;
+}
+
+/* Ajuste del contenedor principal sin sidebar */
+.main-productos {
+    width: 100%;
+    padding: 20px 40px;
+    background-color: transparent;
+}
+
+/* Encabezado de la sección */
+.header-tabla {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+    font-family: "PT Sans", sans-serif;
+
+}
+
+.header-tabla h1 {
+    margin-left: 100px;
+    color: #030303;
+    font-size: 2rem;
+    font-family: "Nunito", sans-serif;
+    font-weight: 600;
+}
+
+/* Contenedor de la tabla (mismo estilo que admin.css) */
+.contenedor-tabla {
+    margin: 0px 100px;
+    background-color: white;
+    border-radius: 12px;
+    padding: 20px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.03);
+}
+
+
+
+/* Tabla con el estilo exacto del panel admin */
+.tabla-diagnosticos {
+    width: 100%;
+    border-collapse: collapse;
+    font-family: "PT Sans", sans-serif;
+}
+
+.tabla-diagnosticos thead th {
+    background-color: #558b2f;
+    color: white;
+    font-weight: 600;
+    font-size: 0.9rem;
+    padding: 14px 20px;
+    text-align: center;
+    letter-spacing: 0.5px;
+}
+
+.tabla-diagnosticos tbody td {
+    padding: 10px 20px;
+    text-align: center;
+    border-bottom: 1px solid #e5e5e5;
+    vertical-align: middle;
+    color: #030303;
+}
+
+/* Efecto hover idéntico */
+.tabla-diagnosticos tbody tr:hover td {
+    background-color: #f1f8e9;
+}
+
+/* Columna de foto */
+.col-foto img {
+    width: 55px;
+    height: 55px;
+    object-fit: cover;
+    border-radius: 6px;
+    border: 1px solid #ccc;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.08);
+}
+
+/* Iconos de acción */
+.action-icons i {
+    font-size: 1.2rem;
+    color: #030303;
+    cursor: pointer;
+    margin-right: 15px;
+    transition: transform 0.2s;
+}
+
+.action-icons i:hover {
+    transform: scale(1.2);
+    color: #13213c;
+}
+
+/* Paginación idéntica a admin.css */
+.paginacion {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 20px;
+    padding-top: 10px;
+}
+
+.numeros-pagina {
+    display: flex;
+    gap: 5px;
+}
+
+.btn-page {
+    border: 1px solid #558b2f;
+    background: #f1f8e9;
+    padding: 8px 12px;
+    border-radius: 6px;
+    cursor: pointer;
+    color: #558b2f;
+    font-family: "Nunito", sans-serif;
+    transition: 0.2s;
+    display: flex;
+    align-items: center;
+    gap: 5px;
+}
+
+.btn-page.active {
+    background-color: #558b2f;
+    color: #f1f8e9;
+    border-color: #558b2f;
+}
+
+.btn-page:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+}
+
+.btn-page:hover:not(.active):not(:disabled) {
+    background-color: darkgreen;
+    color: #eee;
+}
+
+.btn-nav {
+    font-weight: 600;
+}
+
+/* ========== MODAL ESTILO ADMIN ========== */
+.modal-diagnostico-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.7);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 2000;
+    animation: fadeIn 0.3s ease;
+}
+
+.modal-diagnostico {
+    background-color: white;
+    border-radius: 6px;
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.5);
+    width: 500px;
+    max-width: 90%;
+    overflow: hidden;
+    font-family: "Nunito", sans-serif;
+    animation: slideUp 0.4s ease;
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+}
+
+@keyframes slideUp {
+    from { transform: translateY(20px); opacity: 0; }
+    to { transform: translateY(0); opacity: 1; }
+}
+
+.modal-header {
+    background-color: #030303;
+    color: white;
+    padding: 14px 20px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-top-left-radius: 6px;
+    border-top-right-radius: 6px;
+}
+
+.modal-header h2 {
+    margin: 0;
+    font-size: 1rem;
+    font-weight: 500;
+    letter-spacing: 1px;
+    font-family: "Open Sans", sans-serif;
+}
+
+.modal-header .btn-cerrar-modal {
+    background: none;
+    border: none;
+    color: white;
+    font-size: 1.4rem;
+    cursor: pointer;
+    transition: 0.3s;
+    padding: 5px;
+    border-radius: 50%;
+}
+
+.modal-header .btn-cerrar-modal:hover {
+    background-color: rgba(255, 255, 255, 0.2);
+}
+
+.modal-body {
+    padding: 25px;
+    text-align: center;
+    background-color: white;
+}
+
+.modal-fecha-hora {
+    display: flex;
+    justify-content: center;
+    gap: 30px;
+    margin-bottom: 25px;
+    color: #030303;
+    font-family: "Roboto Condensed", sans-serif;
+    font-size: 1rem;
+}
+
+.modal-fecha-hora i {
+    margin-right: 5px;
+    color: #13213c;
+}
+
+.modal-fecha-hora span {
+    font-weight: 600;
+}
+
+.modal-img {
+    margin-bottom: 25px;
+}
+
+.modal-img img {
+    max-width: 100%;
+    max-height: 250px;
+    border-radius: 6px;
+    object-fit: contain;
+    border: 2px solid #e5e5e5;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+}
+
+.modal-resultado {
+    margin-top: 15px;
+    background-color: #f1f1f1;
+    border-radius: 6px;
+    padding: 15px;
+    border: 1px solid #e5e5e5;
+}
+
+.modal-resultado .etiqueta {
+    font-weight: 600;
+    color: #030303;
+    margin-bottom: 5px;
+}
+
+.modal-resultado .valor-resultado {
+    font-size: 1.1rem;
+    font-weight: 700;
+    color: #13213c;
+    margin-bottom: 5px;
+}
+
+.modal-resultado .valor-confianza {
+    font-size: 0.95rem;
+    color: #444;
+}

@@ -1,0 +1,10 @@
+node_modules/
+backend/.env
+.DS_Store
+logs/
+*.log
+Dockerfile
+main.py
+ModeloConv1.pth
+requirements.txt
+ModeloSaccharum_ConvNeXt.ipynb

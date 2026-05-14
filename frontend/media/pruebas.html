@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Saccarum - Gestión Completa de Cultivos</title>
+    <style>
+        :root { --primary: #2e7d32; --bg: #f4f7f6; --accent: #1565c0; --danger: #c62828; }
+        body { font-family: 'Segoe UI', sans-serif; background: var(--bg); padding: 20px; }
+        .container { max-width: 600px; margin: auto; background: white; padding: 25px; border-radius: 12px; box-shadow: 0 4px 15px rgba(0,0,0,0.1); }
+        .section { border: 1px solid #ddd; padding: 15px; border-radius: 8px; margin-bottom: 20px; }
+        h3 { margin-top: 0; color: var(--primary); font-size: 1.1em; border-bottom: 1px solid #eee; padding-bottom: 5px; }
+        input, select { width: 100%; padding: 10px; margin: 8px 0; border: 1px solid #ccc; border-radius: 6px; box-sizing: border-box; }
+        .btn-group { display: flex; gap: 10px; margin-top: 10px; }
+        button { width: 100%; color: white; border: none; padding: 12px; border-radius: 6px; cursor: pointer; font-weight: bold; transition: opacity 0.3s; }
+        .btn-create { background: var(--primary); }
+        .btn-load { background: #607d8b; margin-bottom: 10px; }
+        .btn-link { background: var(--accent); }
+        .btn-edit { background: #ffa000; }
+        .btn-delete { background: var(--danger); }
+        button:hover { opacity: 0.8; }
+        button:disabled { background: #ccc; cursor: not-allowed; }
+        .status { margin-top: 10px; padding: 8px; border-radius: 4px; font-size: 0.85em; display: none; }
+        pre { background: #272822; color: #f8f8f2; padding: 10px; border-radius: 5px; font-size: 0.75em; overflow-x: auto; margin-top: 10px; }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <h2 style="text-align:center;">🌿 Panel de Control Saccarum</h2>
+    
+    <!-- 1. CREAR -->
+    <div class="section">
+        <h3>1. Registrar Nuevo Cultivo</h3>
+        <input type="text" id="nuevoNombre" placeholder="Nombre de la parcela (ej. Lote A1)">
+        <button class="btn-create" onclick="crearCultivo()">Crear Cultivo</button>
+    </div>
+
+    <!-- 2. GESTIONAR Y VINCULAR -->
+    <div class="section">
+        <h3>2. Gestionar Cultivos Existentes</h3>
+        <button class="btn-load" onclick="cargarCultivos()">🔄 Refrescar Lista</button>
+        
+        <label>Seleccionar Cultivo:</label>
+        <select id="selectCultivo" onchange="actualizarBotones()">
+            <option value="">-- Carga tus cultivos --</option>
+        </select>
+
+        <div class="btn-group">
+            <button class="btn-edit" id="btnEditar" onclick="editarNombre()" disabled>✏️ Editar Nombre</button>
+            <button class="btn-delete" id="btnEliminar" onclick="eliminarCultivo()" disabled>🗑️ Eliminar</button>
+        </div>
+
+        <hr style="margin: 20px 0; border: 0; border-top: 1px solid #eee;">
+        
+        <label>ID del Diagnóstico a Vincular:</label>
+        <input type="text" id="diagId" placeholder="Pega el ID del diagnóstico generado">
+        <button class="btn-link" id="btnVincular" onclick="vincular()" disabled>🔗 Guardar Diagnóstico en este Cultivo</button>
+    </div>
+
+    <div id="status" class="status"></div>
+    <pre id="jsonRes" style="display:none"></pre>
+</div>
+
+<script>
+    const USUARIO_ID = "69fb61a794b7b8e4ee31f8b4";
+    const BASE_URL = "http://localhost:2000/api/cultivos";
+
+    // Habilitar/Deshabilitar botones según selección
+    function actualizarBotones() {
+        const seleccionado = document.getElementById('selectCultivo').value;
+        const inputs = ['btnEditar', 'btnEliminar', 'btnVincular'];
+        inputs.forEach(id => document.getElementById(id).disabled = !seleccionado);
+    }
+
+    // --- CREATE ---
+    async function crearCultivo() {
+        const nombre = document.getElementById('nuevoNombre').value;
+        if (!nombre) return alert("Escribe un nombre");
+        try {
+            await fetch(BASE_URL, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ usuario: USUARIO_ID, nombre })
+            });
+            showMsg("✅ Cultivo creado", "#c8e6c9", "#256029");
+            document.getElementById('nuevoNombre').value = '';
+            cargarCultivos();
+        } catch (e) { showMsg("❌ Error al crear", "#ffcdd2", "#c62828"); }
+    }
+
+    // --- READ ---
+    async function cargarCultivos() {
+        try {
+            const res = await fetch(`${BASE_URL}/usuario/${USUARIO_ID}`);
+            const cultivos = await res.json();
+            const select = document.getElementById('selectCultivo');
+            select.innerHTML = '<option value="">-- Selecciona un cultivo --</option>'; 
+            cultivos.forEach(c => {
+                const opt = document.createElement('option');
+                opt.value = c._id;
+                opt.text = `${c.nombre} (ID: ...${c._id.substring(18)})`;
+                select.appendChild(opt);
+            });
+            actualizarBotones();
+        } catch (e) { console.error("Error al cargar"); }
+    }
+
+    // --- UPDATE (Nombre) ---
+    async function editarNombre() {
+        const id = document.getElementById('selectCultivo').value;
+        const nuevoNombre = prompt("Introduce el nuevo nombre para el cultivo:");
+        if (!nuevoNombre) return;
+
+        try {
+            const res = await fetch(`${BASE_URL}/${id}`, {
+                method: 'PUT',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ nombre: nuevoNombre })
+            });
+            const data = await res.json();
+            displayJSON(data);
+            showMsg("✏️ Nombre actualizado", "#fff9c4", "#827717");
+            cargarCultivos();
+        } catch (e) { showMsg("❌ Error al editar", "#ffcdd2", "#c62828"); }
+    }
+
+    // --- DELETE ---
+    async function eliminarCultivo() {
+        const id = document.getElementById('selectCultivo').value;
+        if (!confirm("¿Seguro que quieres eliminar este cultivo y sus referencias?")) return;
+
+        try {
+            const res = await fetch(`${BASE_URL}/${id}`, { method: 'DELETE' });
+            const data = await res.json();
+            displayJSON(data);
+            showMsg("🗑️ Cultivo eliminado", "#ffcdd2", "#c62828");
+            cargarCultivos();
+        } catch (e) { showMsg("❌ Error al eliminar", "#ffcdd2", "#c62828"); }
+    }
+
+    // --- LINK (Vincular) ---
+    async function vincular(idDiag) {
+        const cultivoId = document.getElementById('selectCultivo').value;
+        const diagnosticoId = idDiag; 
+        if (!diagnosticoId) return alert("Pega un ID de diagnóstico");
+
+        try {
+            const res = await fetch(`${BASE_URL}/vincular`, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ cultivoId, diagnosticoId })
+            });
+            const data = await res.json();
+            displayJSON(data);
+            showMsg("🔗 Vinculado con éxito", "#e3f2fd", "#0d47a1");
+        } catch (e) { showMsg("❌ Error al vincular", "#ffcdd2", "#c62828"); }
+    }
+
+    // utilidades
+    function showMsg(t, bg, col) {
+        const s = document.getElementById('status');
+        s.innerText = t;
+        s.style.display = 'block';
+        s.style.backgroundColor = bg;
+        s.style.color = col;
+    }
+
+    function displayJSON(data) {
+        const pre = document.getElementById('jsonRes');
+        pre.style.display = 'block';
+        pre.innerText = JSON.stringify(data, null, 2);
+    }
+</script>
+
+</body>
+</html>
