@@ -14,7 +14,7 @@ document.addEventListener("DOMContentLoaded", async () => {
         return;
     }
 
-    if (usuario && usuario.hasPassword === false) {
+    if (usuario && usuario.Password === 123) {
         const passActual = document.getElementById("pass-actual");
         const passNueva = document.getElementById("pass-nueva");
         const btnCambiar = document.getElementById("btn-cambiar-pass");
