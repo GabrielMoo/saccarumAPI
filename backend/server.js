@@ -83,7 +83,7 @@ passport.use(new GoogleStrategy(
                         nombre: profile.displayName,
                         email: email,
                         googleId: profile.id,
-                        contrasena: 123   // sin contraseña para cuentas Google
+                        contrasena: ""   // sin contraseña para cuentas Google
                     }).save();
                 }
             }
