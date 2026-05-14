@@ -16,7 +16,7 @@ const app = express();
 
 // ─── URL del frontend (para redirecciones tras OAuth) ───────
 // Cambia esto si tu frontend está en otro origen / puerto
-const FRONTEND_URL = 'http://127.0.0.1:5500';
+const FRONTEND_URL = 'https://saccarumapi-is4a.onrender.com';
 
 app.use(cors({
     origin: FRONTEND_URL,
