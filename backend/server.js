@@ -24,6 +24,10 @@ app.use(cors({
 }))
 app.use(express.json())
 
+const path = require('path');
+// ... otras configuraciones (express.json, cors, etc.)
+app.use(express.static(path.join(__dirname, '..', 'frontend')));
+
 // ─── Sesiones (necesarias para que Passport guarde el estado OAuth) ─
 app.use(session({
     secret: process.env.SESSION_SECRET || 'saccarum-secret-local',
@@ -92,9 +96,6 @@ passport.use(new GoogleStrategy(
 ));
 
 // ─── Rutas ──────────────────────────────────────────────────
-app.get("/", (req, res) => {
-    res.send("El servidor funciona correctamente")
-});
 
 // ── Inicio de flujo OAuth con Google ──
 app.get('/auth/google',
