@@ -25,7 +25,7 @@ document.addEventListener("DOMContentLoaded", async () => {
     // === NUEVO: CARGAR LA FOTO DESDE LA BASE DE DATOS ===
     try {
         // Le pedimos al servidor el avatar de este usuario en específico
-        const respuesta = await fetch(`http://localhost:2000/api/avatar/obtener-avatar/${usuario.id}`);
+        const respuesta = await fetch(`/api/avatar/obtener-avatar/${usuario.id}`);
         const datos = await respuesta.json();
 
         // Si la petición fue exitosa y el usuario tiene un avatar
@@ -68,7 +68,7 @@ document.addEventListener("DOMContentLoaded", async () => {
                 btnGuardarFoto.textContent = "Guardando...";
                 btnGuardarFoto.disabled = true;
 
-                const response = await fetch('http://localhost:2000/api/avatar/guardar-avatar', {
+                const response = await fetch('/api/avatar/guardar-avatar', {
                     method: 'POST',
                     body: formData
                 });
@@ -105,7 +105,7 @@ document.addEventListener("DOMContentLoaded", async () => {
     if (btnEliminarCuenta) {
         btnEliminarCuenta.addEventListener("click", () => {
             if(confirm("¿Estás seguro de que deseas eliminar tu cuenta permanentemente?")) {
-                alert(`Aquí enviarías un fetch a DELETE http://localhost:2000/eliminar/${usuario.id}`);
+                alert(`Aquí enviarías un fetch a DELETE /eliminar/${usuario.id}`);
             }
         });
     }
@@ -128,7 +128,7 @@ document.addEventListener("DOMContentLoaded", async () => {
                 btnCambiarPass.textContent = "Actualizando...";
                 btnCambiarPass.disabled = true;
 
-                const response = await fetch('http://localhost:2000/cambiar-contrasena', {
+                const response = await fetch('/cambiar-contrasena', {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json'
