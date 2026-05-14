@@ -56,7 +56,7 @@ formRegister.addEventListener('submit', async function (evento) {
     }
 
     try {
-        const respuesta = await fetch(`${API_NODE}/registro`, {
+        const respuesta = await fetch(`/registro`, {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({ nombre, email, contrasena })
@@ -86,7 +86,7 @@ formLogin.addEventListener('submit', async function (evento) {
     }
 
     try {
-        const respuesta = await fetch(`${API_NODE}/login`, {
+        const respuesta = await fetch(`/login`, {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({ email, contrasena })
